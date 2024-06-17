@@ -6,7 +6,7 @@ type TAtom<T> = {
 };
 
 
-export const createAtomByKeys = <T extends object>(keys: (number | string)[], atomObj: Atom<T>) => {
+export const createAtomByKeys = <T extends object>(keys: (keyof T)[], atomObj: Atom<T>) => {
   return keys.reduce((pre, cur) => {
     pre[cur] = atom((get) => get(atomObj)[cur]);
     return pre;
@@ -20,7 +20,7 @@ export const createAtomByObject = <T extends object>(obj: T, atomObj: Atom<T>) =
 };
 export const createGetterAtom = <T extends object>(param: (number | string)[] | T, atomObj: Atom<T>): TAtom<T> => {
   if (Array.isArray(param)) {
-    return createAtomByKeys(param as (number | string)[], atomObj);
+    return createAtomByKeys(param as (keyof T)[], atomObj);
   } else {
     return createAtomByObject(param, atomObj);
   }
